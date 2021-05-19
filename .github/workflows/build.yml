@@ -59,7 +59,7 @@ jobs:
           python --version
           scons --version
           
-      - name: Build and analyze
+      - name: Start analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -67,5 +67,19 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"QuentinWidlocher_RetrowaveCarGame" /o:"quentinwidlocher" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          scons tools=yes tests=yes target=release_debug
+          
+      - name: Build Godot
+        uses: josephbmanley/build-godot-action@v1.4.1
+        with:
+          name: car
+          preset: win64
+          
+      - name: End analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SCONS_CACHE: /.scons_cache/
+        shell: powershell
+        run: |
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
