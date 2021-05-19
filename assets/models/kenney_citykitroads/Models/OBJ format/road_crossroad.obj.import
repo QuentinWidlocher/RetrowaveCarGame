@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_crossroad.obj-52e78246cafdf50e5b95c0f78509a3ba.mesh"
+
+[deps]
+
+files=[ "res://.import/road_crossroad.obj-52e78246cafdf50e5b95c0f78509a3ba.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_crossroad.obj"
+dest_files=[ "res://.import/road_crossroad.obj-52e78246cafdf50e5b95c0f78509a3ba.mesh", "res://.import/road_crossroad.obj-52e78246cafdf50e5b95c0f78509a3ba.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_sideExit.obj-d3d4712c5f25924b26af4c85caef0464.mesh"
+
+[deps]
+
+files=[ "res://.import/road_sideExit.obj-d3d4712c5f25924b26af4c85caef0464.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_sideExit.obj"
+dest_files=[ "res://.import/road_sideExit.obj-d3d4712c5f25924b26af4c85caef0464.mesh", "res://.import/road_sideExit.obj-d3d4712c5f25924b26af4c85caef0464.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

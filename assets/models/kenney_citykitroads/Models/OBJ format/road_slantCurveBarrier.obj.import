@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_slantCurveBarrier.obj-76ac63d566ec77e644a8b8c59281a84d.mesh"
+
+[deps]
+
+files=[ "res://.import/road_slantCurveBarrier.obj-76ac63d566ec77e644a8b8c59281a84d.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_slantCurveBarrier.obj"
+dest_files=[ "res://.import/road_slantCurveBarrier.obj-76ac63d566ec77e644a8b8c59281a84d.mesh", "res://.import/road_slantCurveBarrier.obj-76ac63d566ec77e644a8b8c59281a84d.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

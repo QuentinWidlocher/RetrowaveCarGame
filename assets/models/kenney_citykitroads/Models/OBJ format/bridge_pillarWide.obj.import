@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/bridge_pillarWide.obj-a93bd757c241d7687e992c5f7bd9a6e3.mesh"
+
+[deps]
+
+files=[ "res://.import/bridge_pillarWide.obj-a93bd757c241d7687e992c5f7bd9a6e3.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/bridge_pillarWide.obj"
+dest_files=[ "res://.import/bridge_pillarWide.obj-a93bd757c241d7687e992c5f7bd9a6e3.mesh", "res://.import/bridge_pillarWide.obj-a93bd757c241d7687e992c5f7bd9a6e3.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

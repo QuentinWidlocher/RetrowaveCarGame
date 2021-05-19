@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/suvLuxury.obj-5ab27ef2d2bb48970090aa5ee53df3c5.mesh"
+
+[deps]
+
+files=[ "res://.import/suvLuxury.obj-5ab27ef2d2bb48970090aa5ee53df3c5.mesh" ]
+
+source_file="res://assets/models/carkit_v1.4/Models/OBJ format/suvLuxury.obj"
+dest_files=[ "res://.import/suvLuxury.obj-5ab27ef2d2bb48970090aa5ee53df3c5.mesh", "res://.import/suvLuxury.obj-5ab27ef2d2bb48970090aa5ee53df3c5.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

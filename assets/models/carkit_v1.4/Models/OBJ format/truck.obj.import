@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/truck.obj-7521767413f16ee45118dcea6c0cd605.mesh"
+
+[deps]
+
+files=[ "res://.import/truck.obj-7521767413f16ee45118dcea6c0cd605.mesh" ]
+
+source_file="res://assets/models/carkit_v1.4/Models/OBJ format/truck.obj"
+dest_files=[ "res://.import/truck.obj-7521767413f16ee45118dcea6c0cd605.mesh", "res://.import/truck.obj-7521767413f16ee45118dcea6c0cd605.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

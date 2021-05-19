@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/tile_slant.obj-de5d274777dab54804308b6f563e4b11.mesh"
+
+[deps]
+
+files=[ "res://.import/tile_slant.obj-de5d274777dab54804308b6f563e4b11.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/tile_slant.obj"
+dest_files=[ "res://.import/tile_slant.obj-de5d274777dab54804308b6f563e4b11.mesh", "res://.import/tile_slant.obj-de5d274777dab54804308b6f563e4b11.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

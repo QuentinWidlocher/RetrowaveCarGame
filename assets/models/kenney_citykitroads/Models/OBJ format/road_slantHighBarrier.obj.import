@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_slantHighBarrier.obj-183de2daf200746aa877e461cd6610dc.mesh"
+
+[deps]
+
+files=[ "res://.import/road_slantHighBarrier.obj-183de2daf200746aa877e461cd6610dc.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_slantHighBarrier.obj"
+dest_files=[ "res://.import/road_slantHighBarrier.obj-183de2daf200746aa877e461cd6610dc.mesh", "res://.import/road_slantHighBarrier.obj-183de2daf200746aa877e461cd6610dc.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

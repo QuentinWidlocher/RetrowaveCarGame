@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/construction_pylon.obj-b8d376f5a54ada47e7d1475795ded7a9.mesh"
+
+[deps]
+
+files=[ "res://.import/construction_pylon.obj-b8d376f5a54ada47e7d1475795ded7a9.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/construction_pylon.obj"
+dest_files=[ "res://.import/construction_pylon.obj-b8d376f5a54ada47e7d1475795ded7a9.mesh", "res://.import/construction_pylon.obj-b8d376f5a54ada47e7d1475795ded7a9.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

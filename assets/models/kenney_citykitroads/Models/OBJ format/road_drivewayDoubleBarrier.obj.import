@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_drivewayDoubleBarrier.obj-49916ae93489c6e4b96c1722c172b7c1.mesh"
+
+[deps]
+
+files=[ "res://.import/road_drivewayDoubleBarrier.obj-49916ae93489c6e4b96c1722c172b7c1.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_drivewayDoubleBarrier.obj"
+dest_files=[ "res://.import/road_drivewayDoubleBarrier.obj-49916ae93489c6e4b96c1722c172b7c1.mesh", "res://.import/road_drivewayDoubleBarrier.obj-49916ae93489c6e4b96c1722c172b7c1.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

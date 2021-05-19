@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/car/car2.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/levels/level-block-spawner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/environment/retrowave.tres" type="Environment" id=3]
+[ext_resource path="res://scripts/debug/DebugDraw3D.cs" type="Script" id=4]
+[ext_resource path="res://scripts/camera/ChaseCamera.cs" type="Script" id=7]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Car" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.184168, 0.254162, 7.39596 )
+Gravity = 1.0
+Deceleration = 0.4
+SteerSpeed = 0.1
+BrakeAngle = 0.5
+
+[node name="Target" type="Position3D" parent="Car"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65931, -43.3774 )
+
+[node name="Camera" type="Camera" parent="Car"]
+transform = Transform( 1, 0, 0, 0, 0.979498, 0.201455, 0, -0.201455, 0.979498, -0.15477, 4.75074, 10.925 )
+environment = ExtResource( 3 )
+current = true
+fov = 36.5625
+far = 1000.0
+script = ExtResource( 7 )
+LerpSpeed = 4.0
+TargetPath = NodePath("../Target")
+LockYPos = true
+LockYRot = true
+
+[node name="LevelBlockSpawner" parent="." instance=ExtResource( 2 )]
+transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 0, -0.0149045, 0 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, -1.02552e-07, -8.61036e-08, -8.61036e-08, -0.984911, 0.173064, -1.02552e-07, -0.173064, -0.984911, -12.9134, 10.7813, 0 )
+shadow_enabled = true
+shadow_bias = -0.1
+shadow_contact = 0.2
+directional_shadow_mode = 0
+directional_shadow_depth_range = 1
+
+[node name="DebugOverlay" type="CanvasLayer" parent="."]
+
+[node name="DebugDraw3D" type="Control" parent="DebugOverlay"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+PlayerPath = NodePath("../../Car")
+CameraPath = NodePath("../../Car/Camera")
+Width = 5.0

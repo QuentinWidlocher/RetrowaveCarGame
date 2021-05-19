@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/light_curvedCross.obj-f951c0d35ca085c7c2f17908a2b2182a.mesh"
+
+[deps]
+
+files=[ "res://.import/light_curvedCross.obj-f951c0d35ca085c7c2f17908a2b2182a.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/light_curvedCross.obj"
+dest_files=[ "res://.import/light_curvedCross.obj-f951c0d35ca085c7c2f17908a2b2182a.mesh", "res://.import/light_curvedCross.obj-f951c0d35ca085c7c2f17908a2b2182a.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_curveIntersectionBarrier.obj-efd4559b6989b11682dbfde4ea1e660c.mesh"
+
+[deps]
+
+files=[ "res://.import/road_curveIntersectionBarrier.obj-efd4559b6989b11682dbfde4ea1e660c.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_curveIntersectionBarrier.obj"
+dest_files=[ "res://.import/road_curveIntersectionBarrier.obj-efd4559b6989b11682dbfde4ea1e660c.mesh", "res://.import/road_curveIntersectionBarrier.obj-efd4559b6989b11682dbfde4ea1e660c.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/level/RoadBlock.cs" type="Script" id=1]
+[ext_resource path="res://scenes/road-tiles/road_straight.tscn" type="PackedScene" id=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.499633, 0.242533, 0.5 )
+
+[node name="BasicBlock" type="Spatial"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "Not to use as it.
+You must inherit a scene from it and possibly add a script on root that inherit RoadBlock. Don't forget to disable everything not used and to enable it in the _EnterTree of the new script !"
+}
+
+[node name="LoadZone" type="Area" parent="."]
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="LoadZone"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.215981, 0 )
+shape = SubResource( 1 )
+
+[node name="RoadMesh" parent="." instance=ExtResource( 2 )]
+script = null

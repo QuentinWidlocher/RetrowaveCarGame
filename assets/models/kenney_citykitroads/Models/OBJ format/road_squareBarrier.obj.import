@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/road_squareBarrier.obj-763616e8b4c83ea953d43018cf782440.mesh"
+
+[deps]
+
+files=[ "res://.import/road_squareBarrier.obj-763616e8b4c83ea953d43018cf782440.mesh" ]
+
+source_file="res://assets/models/kenney_citykitroads/Models/OBJ format/road_squareBarrier.obj"
+dest_files=[ "res://.import/road_squareBarrier.obj-763616e8b4c83ea953d43018cf782440.mesh", "res://.import/road_squareBarrier.obj-763616e8b4c83ea953d43018cf782440.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
