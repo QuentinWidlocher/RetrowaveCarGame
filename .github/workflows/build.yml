@@ -23,4 +23,4 @@ jobs:
         uses: josephbmanley/build-godot-action@v1.4.1
         with:
           name: car
-          preset: win64
+          preset: windows
