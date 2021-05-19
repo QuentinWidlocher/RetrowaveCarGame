@@ -1,22 +1,17 @@
 using Godot;
 using Helpers;
-using static Helpers.SpatialExtentions;
 
 public class ChaseCamera : Camera
 {
-    [Export]
-    float LerpSpeed = 10;
-    [Export]
-    NodePath? TargetPath;
-    [Export]
-    bool LockYPos = false;
-    [Export]
-    bool LockYRot = false;
+    [Export] private float LerpSpeed = 10;
+    [Export] private bool LockYPos;
+    [Export] private bool LockYRot;
+    private Vector3 Offset;
+    private Vector3 OriginalPos;
+    private Basis OriginalRot = Basis.Identity;
 
-    Spatial? Target;
-    Vector3 Offset = new Vector3();
-    Vector3 OriginalPos = new Vector3();
-    Basis OriginalRot = Basis.Identity;
+    private Spatial? Target;
+    [Export] private NodePath? TargetPath;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

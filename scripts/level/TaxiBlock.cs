@@ -1,15 +1,15 @@
 using Godot;
 using Helpers;
 using static Helpers.Nullable;
-using System;
+using static Godot.GD;
 
 public class TaxiBlock : RoadBlock
 {
-    LevelManager? _LevelManager;
-    LevelManager LevelManager => ReturnIfNotNull(_LevelManager);
+    private LevelManager? _levelManager;
 
-    Taxi? _Taxi;
-    Taxi Taxi => ReturnIfNotNull(_Taxi);
+    private Taxi? _taxi;
+    private LevelManager LevelManager => ReturnIfNotNull(_levelManager);
+    private Taxi Taxi => ReturnIfNotNull(_taxi);
 
     public void OnTaxiCollided(Node body)
     {
@@ -20,34 +20,28 @@ public class TaxiBlock : RoadBlock
     public override void _Ready()
     {
         base._Ready();
-        _LevelManager = GetNodeOrNull<LevelManager>("/root/LevelManager");
-        _Taxi = _Taxi ?? GetNodeOrNull<Taxi>("Taxi");
+        _levelManager = GetNodeOrNull<LevelManager>("/root/LevelManager");
+        _taxi ??= GetNodeOrNull<Taxi>("Taxi");
     }
 
     public override void Enable()
     {
         base.Enable();
 
-        _Taxi = _Taxi ?? GetNodeOrNull<Taxi>("Taxi");
+        _taxi ??= GetNodeOrNull<Taxi>("Taxi");
 
         var areaCollisionShape = Taxi.GetNodeOrNull<CollisionShape>("Area/CollisionShape");
-        if (areaCollisionShape != null)
-        {
-            areaCollisionShape.Disabled = false;
-        }
+        if (areaCollisionShape != null) areaCollisionShape.Disabled = false;
 
         var physicsCollisionShape = Taxi.GetNodeOrNull<CollisionShape>("CollisionShape");
-        if (physicsCollisionShape != null)
-        {
-            physicsCollisionShape.Disabled = false;
-        }
+        if (physicsCollisionShape != null) physicsCollisionShape.Disabled = false;
 
         Taxi.Connect(nameof(Taxi.BodyEntered), this, nameof(OnTaxiCollided));
 
         Taxi.SetOrigin(new Vector3(
-            (GD.Randf() - .5f) / 1.5f,
+            (Randf() - .5f) / 1.5f,
             Taxi.Transform.origin.y,
-            (GD.Randf() - .5f) / 1.5f
+            (Randf() - .5f) / 1.5f
         ));
     }
 }

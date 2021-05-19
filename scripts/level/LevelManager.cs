@@ -1,7 +1,5 @@
 using Godot;
-using Helpers;
-using static Helpers.Nullable;
-using System;
+using static Godot.GD;
 
 public class LevelManager : Node
 {
@@ -9,10 +7,10 @@ public class LevelManager : Node
     public delegate void CarTouchedCoin();
 
     [Signal]
-    public delegate void CarTouchedTaxi();
+    public delegate void CarTouchedJumpPad();
 
     [Signal]
-    public delegate void CarTouchedJumpPad();
+    public delegate void CarTouchedTaxi();
 
     public void OnCarTouchedCoin()
     {
@@ -26,7 +24,7 @@ public class LevelManager : Node
 
     public void OnCarTouchedJumpPad()
     {
-        GD.Print("OnCarTouchedJumpPad");
+        Print("OnCarTouchedJumpPad");
         EmitSignal(nameof(CarTouchedJumpPad));
     }
 }

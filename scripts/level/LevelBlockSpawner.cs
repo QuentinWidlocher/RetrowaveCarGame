@@ -1,30 +1,30 @@
-using Godot;
-using static Helpers.Nullable;
-using static Helpers.NodeExtentions;
-using static Godot.GD;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
+using Godot.Collections;
+using static Helpers.Nullable;
+using static Godot.GD;
+using Convert = System.Convert;
 
 public class LevelBlockSpawner : Spatial
 {
-    RoadBlock? _StartBlock;
-    RoadBlock StartBlock => ReturnIfNotNull(_StartBlock);
+    private const int BackOffset = 5;
+    private const int FrontOffset = 20;
 
-    Node? _Blocks;
-    Node Blocks => ReturnIfNotNull(_Blocks);
+    private readonly List<RoadBlock> BlockPool = new();
 
-    List<RoadBlock> BlockPool = new List<RoadBlock>();
-    int CarProgression = 0;
-    int BackOffset = 5;
-    int FrontOffset = 20;
-    int TotalBlocks = 0;
-    int BlockCount = 0;
+    private Node? _blocks;
+    private RoadBlock? _startBlock;
+    private int BlockCount;
+    private int TotalBlocks;
+    private RoadBlock StartBlock => ReturnIfNotNull(_startBlock);
+    private Node Blocks => ReturnIfNotNull(_blocks);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _StartBlock = GetNodeOrNull<RoadBlock>("Start");
-        _Blocks = GetNodeOrNull<Node>("Blocks");
+        _startBlock = GetNodeOrNull<RoadBlock>("Start");
+        _blocks = GetNodeOrNull<Node>("Blocks");
 
         BlockCount = Blocks.GetChildren().OfType<RoadBlock>().Count();
 
@@ -44,12 +44,10 @@ public class LevelBlockSpawner : Spatial
         AddRoadBlock();
     }
 
-    private void onLoadZoneEntered(Node body, int roadIndex)
+    private void OnLoadZoneEntered(Node body, int roadIndex)
     {
-        if (roadIndex >= BackOffset + 1)
-        {
-            RemoveRoadBlock(roadIndex - BackOffset);
-        }
+        if (roadIndex >= BackOffset + 1) RemoveRoadBlock(roadIndex - BackOffset);
+
         AddRoadBlock();
     }
 
@@ -58,16 +56,17 @@ public class LevelBlockSpawner : Spatial
         while (BlockPool.Count < FrontOffset)
         {
             TotalBlocks++;
-            RoadBlock newRoadBlock = (RoadBlock)GetRandomBlock().Duplicate();
+            RoadBlock newRoadBlock = (RoadBlock) GetRandomBlock().Duplicate();
 
             // Moves the block at the end of the last one
             newRoadBlock.Transform = newRoadBlock.Transform.Translated(Vector3.Forward * TotalBlocks);
             // Toggle the visibility on
             newRoadBlock.Show();
-            // Trigger the custom Enable function wich probably enable the collisions depending on the type
+            // Trigger the custom Enable function which probably enable the collisions depending on the type
             newRoadBlock.Enable();
             // Connect the loading zone of the new block
-            newRoadBlock.Connect("LoadZoneEntered", this, nameof(onLoadZoneEntered), new Godot.Collections.Array { TotalBlocks });
+            newRoadBlock.Connect("LoadZoneEntered", this, nameof(OnLoadZoneEntered),
+                new Array {TotalBlocks});
             // Give an ID to the block
             newRoadBlock.Name = BlockName(TotalBlocks);
 
@@ -78,13 +77,13 @@ public class LevelBlockSpawner : Spatial
 
     private RoadBlock GetRandomBlock()
     {
-        var chosenIndex = System.Convert.ToInt32(Randi() % BlockCount);
+        var chosenIndex = Convert.ToInt32(Randi() % BlockCount);
         return Blocks.GetChildren().OfType<RoadBlock>().ElementAt(chosenIndex);
     }
 
     private void RemoveRoadBlock(int i)
     {
-        RoadBlock? roadBlock = BlockPool.Find(block => block.Name == BlockName(i));
+        var roadBlock = BlockPool.Find(block => block.Name == BlockName(i));
         if (roadBlock != null)
         {
             roadBlock.QueueFree();
@@ -92,5 +91,8 @@ public class LevelBlockSpawner : Spatial
         }
     }
 
-    private string BlockName(int index) => "Block_" + index;
+    private static string BlockName(int index)
+    {
+        return "Block_" + index;
+    }
 }

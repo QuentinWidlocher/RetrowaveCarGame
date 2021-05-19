@@ -1,17 +1,17 @@
 using Godot;
+using static Godot.GD;
 using static Helpers.Nullable;
 using static Helpers.SpatialExtentions;
 
 public class JumpPadBlock : RoadBlock
 {
-
-    LevelManager? _LevelManager;
-    LevelManager LevelManager => ReturnIfNotNull(_LevelManager);
+    private LevelManager? _levelManager;
+    private LevelManager LevelManager => ReturnIfNotNull(_levelManager);
 
     public override void _Ready()
     {
         base._Ready();
-        _LevelManager = GetNodeOrNull<LevelManager>("/root/LevelManager");
+        _levelManager = GetNodeOrNull<LevelManager>("/root/LevelManager");
     }
 
     public override void Enable()
@@ -25,23 +25,20 @@ public class JumpPadBlock : RoadBlock
             jumpPad.UseCollision = true;
 
             jumpPad.SetOrigin(new Vector3(
-               (GD.Randf() - .5f) / 1.5f,
-               jumpPad.Transform.origin.y,
-               (GD.Randf() - .5f) / 1.5f
-           ));
+                (Randf() - .5f) / 1.5f,
+                jumpPad.Transform.origin.y,
+                (Randf() - .5f) / 1.5f
+            ));
 
             var boostArea = GetNodeOrNull<Area>("JumpPad/Area");
 
-            if (boostArea != null)
-            {
-                boostArea.Connect("body_entered", this, nameof(OnBoostAreaTouched));
-            }
+            boostArea?.Connect("body_entered", this, nameof(OnBoostAreaTouched));
         }
     }
 
     public void OnBoostAreaTouched(Node body)
     {
-        GD.Print("OnBoostAreaTouched");
+        Print("OnBoostAreaTouched");
         LevelManager.OnCarTouchedJumpPad();
     }
 }

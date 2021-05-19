@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Taxi : KinematicBody
 {
@@ -11,18 +10,11 @@ public class Taxi : KinematicBody
     {
         var area = GetNodeOrNull("Area");
 
-        if (area != null)
-        {
-            area.Connect("body_entered", this, nameof(Emit));
-        }
+        area?.Connect("body_entered", this, nameof(Emit));
     }
 
     public void Emit(Node body)
     {
-        if (body is Car)
-        {
-            EmitSignal(nameof(BodyEntered), body);
-        }
+        if (body is Car) EmitSignal(nameof(BodyEntered), body);
     }
-
 }

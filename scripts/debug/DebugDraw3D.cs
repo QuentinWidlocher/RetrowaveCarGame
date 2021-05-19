@@ -1,52 +1,34 @@
 using Godot;
-using static Godot.GD;
 using static Helpers.Nullable;
 
 public class DebugDraw3D : Control
 {
+    [Export] public readonly NodePath? CameraPath;
+    [Export] public readonly bool Enabled;
 
-    [Export]
-    bool Enabled = false;
+    [Export] public readonly NodePath? PlayerPath;
 
-    [Export]
-    NodePath? PlayerPath;
+    [Export] public readonly float Width;
 
-    [Export]
-    NodePath? CameraPath;
+    private Camera? _camera;
 
-    [Export]
-    float Width;
-
-    Car? _Player;
-    Car Player => ReturnIfNotNull(_Player);
-
-    Camera? _Camera;
-    Camera Camera => ReturnIfNotNull(_Camera);
+    private Car? _player;
+    private Car Player => ReturnIfNotNull(_player);
+    private Camera Camera => ReturnIfNotNull(_camera);
 
     public override void _Ready()
     {
-        if (!Enabled)
-        {
-            return;
-        }
+        if (!Enabled) return;
 
-        if (PlayerPath != null)
-        {
-            _Player = GetNodeOrNull<Car>(PlayerPath);
-        }
+        if (PlayerPath != null) _player = GetNodeOrNull<Car>(PlayerPath);
 
-        if (CameraPath != null)
-        {
-            _Camera = GetNodeOrNull<Camera>(CameraPath);
-        }
+        if (CameraPath != null) _camera = GetNodeOrNull<Camera>(CameraPath);
     }
 
     public override void _Draw()
     {
-        if (!Enabled)
-        {
-            return;
-        }
+        if (!Enabled) return;
+
         var color = Colors.Green;
         var start = Camera.UnprojectPosition(Player.GlobalTransform.origin);
         var end = Camera.UnprojectPosition(Player.GlobalTransform.origin + Player.Velocity);
@@ -56,10 +38,7 @@ public class DebugDraw3D : Control
 
     public override void _Process(float delta)
     {
-        if (!Enabled)
-        {
-            return;
-        }
+        if (!Enabled) return;
 
         Update();
     }
@@ -69,6 +48,6 @@ public class DebugDraw3D : Control
         var a = pos + dir * size;
         var b = pos + dir.Rotated(2 * Mathf.Pi / 3) * size;
         var c = pos + dir.Rotated(4 * Mathf.Pi / 3) * size;
-        DrawPolygon(new Vector2[] { a, b, c }, new Color[] { color });
+        DrawPolygon(new[] {a, b, c}, new[] {color});
     }
 }

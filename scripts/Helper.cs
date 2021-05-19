@@ -1,20 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
+using Godot;
+
 namespace Helpers
 {
-    using System.Threading.Tasks;
-    using System.Diagnostics.CodeAnalysis;
-    using Godot;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System;
-
     public static class Nullable
     {
         public static void AssertNotNull<T>([NotNull] T? x) where T : class
         {
-            if (x == null)
-            {
-                throw new System.Exception();
-            }
+            if (x == null) throw new Exception();
         }
 
         public static T ReturnIfNotNull<T>([NotNull] T? x) where T : class
@@ -23,7 +20,10 @@ namespace Helpers
             return x;
         }
 
-        public static bool IsNullOrEmpty(this string instance) => System.String.IsNullOrEmpty(instance);
+        public static bool IsNullOrEmpty(this string instance)
+        {
+            return string.IsNullOrEmpty(instance);
+        }
     }
 
     public static class SpatialExtentions
@@ -187,7 +187,11 @@ namespace Helpers
 
     public static class AnimationPlayerExtentions
     {
-        public static Task RunAnimationThen(this AnimationPlayer instance, string animationToPlay, Action thingToDoAfter)
+        public static Task RunAnimationThen(
+            this AnimationPlayer instance,
+            string animationToPlay,
+            Action thingToDoAfter
+        )
         {
             instance.CurrentAnimation = animationToPlay;
 

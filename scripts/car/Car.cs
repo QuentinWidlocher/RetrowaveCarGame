@@ -1,77 +1,34 @@
 using Godot;
 using Helpers;
-using Trail;
 using static Godot.GD;
 using static Helpers.Nullable;
 
-class Car : KinematicBody
+internal class Car : KinematicBody
 {
-    #region Exported
-    [Export]
-    public readonly float Gravity = 1f;
-    [Export]
-    public readonly float BaseAcceleration = 0.5f;
-    [Export]
-    public readonly float BoostingAcceleration = 1f;
-    [Export]
-    public readonly float Deceleration = 0.4f;
-    [Export]
-    public readonly float SteerSpeed = 1f;
-    [Export]
-    public readonly float BaseMaxSpeed = 50f;
-    [Export]
-    public readonly float BoostingMaxSpeed = 70f;
-    [Export]
-    public readonly float BrakeAngle = 2;
-    [Export]
-    public readonly float TotalBoostTime = 1f;
-    #endregion
-
-    #region Node Props
-    RayCast? _Down;
-    RayCast Down => ReturnIfNotNull(_Down);
-
-    Spatial? _CarMesh;
-    Spatial CarMesh => ReturnIfNotNull(_CarMesh);
-
-    MeshInstance? _RWheel;
-    MeshInstance RWheel => ReturnIfNotNull(_RWheel);
-
-    MeshInstance? _LWheel;
-    MeshInstance LWheel => ReturnIfNotNull(_LWheel);
-
-    MeshInstance? _Hull;
-    MeshInstance Hull => ReturnIfNotNull(_Hull);
-
-    LevelManager? _LevelManager;
-    LevelManager LevelManager => ReturnIfNotNull(_LevelManager);
-
-    ImmediateGeometry? _Trail;
-    ImmediateGeometry Trail => ReturnIfNotNull(_Trail);
-    #endregion
-
-    public Vector3 Velocity = new Vector3();
+    public float BoostTime;
     public Vector2 Direction = Vector2.Right;
+
+    public Vector3 Velocity;
+
     public Vector3 DirectionVector => Vector3.Forward.Rotated(
         Vector3.Up,
         Direction.Angle() / (BrakeAngle / (Mathf.Abs(Velocity.z) / MaxSpeed)) / (IsOnFloor() ? 1 : 5)
-        ).Normalized();
+    ).Normalized();
 
-    public float BoostTime = 0f;
-    public bool isBoosting => BoostTime > 0 && BoostTime <= TotalBoostTime;
-    public float Acceleration => isBoosting ? BoostingAcceleration : BaseAcceleration;
-    public float MaxSpeed => isBoosting ? BoostingMaxSpeed : BaseMaxSpeed;
+    public bool IsBoosting => BoostTime > 0 && BoostTime <= TotalBoostTime;
+    public float Acceleration => IsBoosting ? BoostingAcceleration : BaseAcceleration;
+    public float MaxSpeed => IsBoosting ? BoostingMaxSpeed : BaseMaxSpeed;
 
     public override void _Ready()
     {
-        _Down = GetNodeOrNull<RayCast>("DownRayCast");
-        _CarMesh = GetNodeOrNull<Spatial>("Mesh");
-        _Hull = GetNodeOrNull<MeshInstance>("Mesh/Hull");
-        _RWheel = GetNodeOrNull<MeshInstance>("Mesh/RWheel");
-        _LWheel = GetNodeOrNull<MeshInstance>("Mesh/LWheel");
-        _Trail = GetNodeOrNull<ImmediateGeometry>("Mesh/Trail");
+        _down = GetNodeOrNull<RayCast>("DownRayCast");
+        _carMesh = GetNodeOrNull<Spatial>("Mesh");
+        _hull = GetNodeOrNull<MeshInstance>("Mesh/Hull");
+        _rWheel = GetNodeOrNull<MeshInstance>("Mesh/RWheel");
+        _lWheel = GetNodeOrNull<MeshInstance>("Mesh/LWheel");
+        _trail = GetNodeOrNull<ImmediateGeometry>("Mesh/Trail");
 
-        _LevelManager = GetNodeOrNull<LevelManager>("/root/LevelManager");
+        _levelManager = GetNodeOrNull<LevelManager>("/root/LevelManager");
 
         LevelManager.Connect(nameof(LevelManager.CarTouchedCoin), this, nameof(OnCoinTouched));
         LevelManager.Connect(nameof(LevelManager.CarTouchedTaxi), this, nameof(OnTaxiTouched));
@@ -90,10 +47,7 @@ class Car : KinematicBody
 
         Velocity = MoveAndSlide(Velocity, Transform.basis.y);
 
-        if (Velocity.Length() > 15)
-        {
-            CarMesh.LookAt(Transform.origin + Velocity, Transform.basis.y);
-        }
+        if (Velocity.Length() > 15) CarMesh.LookAt(Transform.origin + Velocity, Transform.basis.y);
 
         AlignCarWithGround();
     }
@@ -109,20 +63,13 @@ class Car : KinematicBody
 
     private void ComputeDirection()
     {
-
         // Rotate the direction a bit toward the pushed direction
         if (Input.IsActionPressed("steer_left"))
-        {
             Direction = Direction.LinearInterpolate(new Vector2(1, 1), SteerSpeed);
-        }
         else if (Input.IsActionPressed("steer_right"))
-        {
             Direction = Direction.LinearInterpolate(new Vector2(1, -1), SteerSpeed);
-        }
         else
-        {
             Direction = Direction.LinearInterpolate(new Vector2(1, 0), SteerSpeed);
-        }
 
         RWheel.Rotation = new Vector3(
             RWheel.Rotation.x,
@@ -141,18 +88,13 @@ class Car : KinematicBody
 
     private void ComputeVelocity()
     {
-
         if (Input.IsActionPressed("accelerate"))
         {
             if (Mathf.Abs(Velocity.z) <= MaxSpeed)
-            {
                 Velocity += DirectionVector * Acceleration;
-            }
             else
-            {
                 // Cap the velocity at MaxSpeed if > Maxspeed but keep the direction
                 Velocity = (Velocity + DirectionVector * Acceleration).Normalized() * MaxSpeed;
-            }
         }
 
         if (!Input.IsActionPressed("accelerate") && Velocity.z <= -Deceleration)
@@ -160,17 +102,11 @@ class Car : KinematicBody
             Velocity += Transform.basis.z * Deceleration;
 
             if (Velocity.x < -Deceleration)
-            {
                 Velocity += Transform.basis.x * Deceleration;
-            }
             else if (Velocity.x > Deceleration)
-            {
                 Velocity -= Transform.basis.x * Deceleration;
-            }
             else
-            {
                 Velocity.x = 0;
-            }
 
             Direction = Direction.LinearInterpolate(new Vector2(1, 0), SteerSpeed);
         }
@@ -178,21 +114,15 @@ class Car : KinematicBody
 
     private void ComputeBoosting(float delta)
     {
-        if (isBoosting)
-        {
-            BoostTime -= delta;
-        }
+        if (IsBoosting) BoostTime -= delta;
 
-        Trail.Set("distance", isBoosting ? .5f : 0);
-        Trail.Set("emit", isBoosting);
+        Trail.Set("distance", IsBoosting ? .5f : 0);
+        Trail.Set("emit", IsBoosting);
     }
 
     private void ComputeGravity()
     {
-        if (!IsOnFloor())
-        {
-            Velocity += Vector3.Down * Gravity;
-        }
+        if (!IsOnFloor()) Velocity += Vector3.Down * Gravity;
     }
 
     private void OnCoinTouched()
@@ -207,8 +137,47 @@ class Car : KinematicBody
 
     private void OnJumpPadTouched()
     {
-        GD.Print("OnJumpPadTouched");
+        Print("OnJumpPadTouched");
         BoostTime = .2f;
         Velocity *= 5f;
     }
+
+    #region Exported
+
+    [Export] public readonly float Gravity = 1f;
+    [Export] public readonly float BaseAcceleration = 0.5f;
+    [Export] public readonly float BoostingAcceleration = 1f;
+    [Export] public readonly float Deceleration = 0.4f;
+    [Export] public readonly float SteerSpeed = 1f;
+    [Export] public readonly float BaseMaxSpeed = 50f;
+    [Export] public readonly float BoostingMaxSpeed = 70f;
+    [Export] public readonly float BrakeAngle = 2;
+    [Export] public readonly float TotalBoostTime = 1f;
+
+    #endregion
+
+    #region Node Props
+
+    private RayCast? _down;
+    private RayCast Down => ReturnIfNotNull(_down);
+
+    private Spatial? _carMesh;
+    private Spatial CarMesh => ReturnIfNotNull(_carMesh);
+
+    private MeshInstance? _rWheel;
+    private MeshInstance RWheel => ReturnIfNotNull(_rWheel);
+
+    private MeshInstance? _lWheel;
+    private MeshInstance LWheel => ReturnIfNotNull(_lWheel);
+
+    private MeshInstance? _hull;
+    private MeshInstance Hull => ReturnIfNotNull(_hull);
+
+    private LevelManager? _levelManager;
+    private LevelManager LevelManager => ReturnIfNotNull(_levelManager);
+
+    private ImmediateGeometry? _trail;
+    private ImmediateGeometry Trail => ReturnIfNotNull(_trail);
+
+    #endregion
 }

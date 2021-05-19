@@ -1,38 +1,27 @@
 using Godot;
-using System;
-using Helpers;
+using static Godot.GD;
 
 public class RoadBlock : Spatial
 {
-
-    [Signal]
-    delegate void LoadZoneEntered(Node body);
-
     private void OnLoadZoneEntered(Node body)
     {
-        if (body is Car)
-        {
-            EmitSignal(nameof(LoadZoneEntered), body);
-        }
+        if (body is Car) EmitSignal(nameof(LoadZoneEntered), body);
     }
 
     public virtual void Enable()
     {
         var collision = GetNode<CollisionShape>("RoadMesh/RoadBody/RoadCollisionShape");
-        if (collision != null)
-        {
-            collision.Disabled = false;
-        }
+        if (collision != null) collision.Disabled = false;
 
         var loadZone = GetNodeOrNull("LoadZone");
 
-        if (loadZone != null)
-        {
-            loadZone.Connect("body_entered", this, "OnLoadZoneEntered");
-        }
+        if (loadZone != null) loadZone.Connect("body_entered", this, "OnLoadZoneEntered");
 
         SetProcess(true);
 
-        GD.Randomize();
+        Randomize();
     }
+
+    [Signal]
+    private delegate void LoadZoneEntered(Node body);
 }
