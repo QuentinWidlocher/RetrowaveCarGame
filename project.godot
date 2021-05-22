@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 LevelManager="*res://scenes/levels/level-manager.tscn"
+ScoreManager="*res://scenes/ScoreManager.tscn"
 
 [display]
 

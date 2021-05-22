@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/car/car2.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/levels/level-block-spawner.tscn" type="PackedScene" id=2]
@@ -8,9 +8,15 @@
 [ext_resource path="res://assets/fonts/nasalization/nasalization-rg.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://scripts/camera/TighteningChaseCamera.cs" type="Script" id=7]
 [ext_resource path="res://scripts/KillZone.cs" type="Script" id=8]
+[ext_resource path="res://scripts/ui/PointsManager.cs" type="Script" id=9]
+[ext_resource path="res://scripts/ui/Point.cs" type="Script" id=10]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 39.0627, 1, 41.8548 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 25
+font_data = ExtResource( 6 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0.27451, 1, 1 )
@@ -84,6 +90,20 @@ Width = 3.0
 script = ExtResource( 5 )
 PlayerPath = NodePath("../Car")
 
+[node name="TotalScoreLabel" type="RichTextLabel" parent="UIOverlay"]
+anchor_top = 0.94
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -10.0
+custom_fonts/normal_font = SubResource( 5 )
+bbcode_enabled = true
+bbcode_text = "[right]Score : 0000pts[/right]"
+text = "Score : 0000pts"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Speedometer" type="ProgressBar" parent="UIOverlay"]
 anchor_top = 0.98
 anchor_right = 1.0
@@ -96,13 +116,38 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UIOverlay"]
+[node name="SpeedometerLabel" type="RichTextLabel" parent="UIOverlay"]
 anchor_top = 0.95
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 custom_fonts/normal_font = SubResource( 4 )
 text = "% of max speed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PointsManager" type="Control" parent="."]
+visible = false
+margin_right = 1024.0
+margin_bottom = 720.0
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+CameraPath = NodePath("../Car/Camera")
+PlayerPath = NodePath("../Car")
+
+[node name="Point" type="RichTextLabel" parent="PointsManager"]
+margin_right = 100.0
+margin_bottom = 20.0
+custom_fonts/normal_font = SubResource( 4 )
+custom_colors/default_color = Color( 0.109804, 0, 1, 1 )
+bbcode_enabled = true
+bbcode_text = "[center]+ 100pts[/center]"
+text = "+ 100pts"
+scroll_active = false
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -30,6 +30,9 @@ public class TaxiBlock : RoadBlock
         var physicsCollisionShape = Taxi.GetNodeOrNull<CollisionShape>("CollisionShape");
         if (physicsCollisionShape != null) physicsCollisionShape.Disabled = false;
 
+        var bonusZone = Taxi.GetNodeOrNull<Area>("BonusZone");
+        bonusZone.Connect("body_entered", this, nameof(OnBonusZoneCollided));
+
         Taxi.Connect(nameof(Taxi.BodyEntered), this, nameof(OnTaxiCollided));
 
         Taxi.SetOrigin(new Vector3(
@@ -45,6 +48,14 @@ public class TaxiBlock : RoadBlock
         {
             LevelManager.OnCarTouchedTaxi();
             Taxi.QueueFree();
+        }
+    }
+
+    public void OnBonusZoneCollided(Node body)
+    {
+        if (body is Car)
+        {
+            LevelManager.OnCarTouchedCoin();
         }
     }
 }

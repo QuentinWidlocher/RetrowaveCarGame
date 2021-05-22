@@ -11,7 +11,7 @@ namespace Helpers
     {
         public static void AssertNotNull<T>([NotNull] T? x) where T : class
         {
-            if (x == null) throw new Exception();
+            if (x == null) throw new NullReferenceException();
         }
 
         public static T ReturnIfNotNull<T>([NotNull] T? x) where T : class
