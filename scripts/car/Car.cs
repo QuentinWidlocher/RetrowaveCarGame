@@ -56,7 +56,12 @@ internal class Car : KinematicBody
 
         Velocity = MoveAndSlide(Velocity, Transform.basis.y);
 
-        if (Velocity.Length() > 15) CarMesh.LookAt(Transform.origin + Velocity, Transform.basis.y);
+        var direction = new Vector3(
+            Velocity.x,
+            Velocity.y,
+            -Mathf.Abs(Velocity.z)
+        );
+        CarMesh.LookAt(Transform.origin + (direction + Vector3.Forward), Transform.basis.y);
 
         AlignCarWithGround();
     }
@@ -73,21 +78,26 @@ internal class Car : KinematicBody
     private void ComputeDirection()
     {
         // Rotate the direction a bit toward the pushed direction
-        if (Input.IsActionPressed("steer_left"))
-            Direction = Direction.LinearInterpolate(new Vector2(1, 1), SteerSpeed);
-        else if (Input.IsActionPressed("steer_right"))
-            Direction = Direction.LinearInterpolate(new Vector2(1, -1), SteerSpeed);
-        else
-            Direction = Direction.LinearInterpolate(new Vector2(1, 0), SteerSpeed);
 
+        var d = 0;
+        if (Input.IsActionPressed("steer_left"))
+            d = 1;
+        else if (Input.IsActionPressed("steer_right"))
+            d = -1;
+
+        Direction = Direction.LinearInterpolate(new Vector2(1, d), SteerSpeed);
+
+        // Rotate the wheels toward direction
         RWheel.Rotation = new Vector3(
             RWheel.Rotation.x,
             Direction.Angle() / 2,
             RWheel.Rotation.z
         );
 
+        // Rotate the second wheel
         LWheel.Rotation = RWheel.Rotation;
 
+        // Shift the car toward the direction for emphasis
         Hull.Rotation = new Vector3(
             Hull.Rotation.x,
             Hull.Rotation.y,
@@ -99,8 +109,11 @@ internal class Car : KinematicBody
     {
         if (Input.IsActionPressed("accelerate"))
         {
-            if (Mathf.Abs(Velocity.z) <= MaxSpeed)
+            if (-Velocity.z <= MaxSpeed && Velocity.z < 0)
                 Velocity += DirectionVector * Acceleration;
+            else if (Velocity.z > 0)
+                // Go back to zero when re-accelerating instead of going sideways
+                Velocity = Velocity.LinearInterpolate(Vector3.Zero, Acceleration);
             else
                 // Cap the velocity at MaxSpeed if > MaxSpeed but keep the direction
                 Velocity = (Velocity + DirectionVector * Acceleration).Normalized() * MaxSpeed;
@@ -141,7 +154,8 @@ internal class Car : KinematicBody
 
     private void OnTaxiTouched()
     {
-        Velocity *= -0.3f;
+        Velocity.z = -1f;
+        Velocity.x = 0f;
     }
 
     private void OnJumpPadTouched()

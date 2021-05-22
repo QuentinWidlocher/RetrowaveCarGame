@@ -29,11 +29,21 @@ public class DebugDraw3D : Control
     {
         if (!Enabled) return;
 
-        var color = Colors.Green;
-        var start = Camera.UnprojectPosition(Player.GlobalTransform.origin);
-        var end = Camera.UnprojectPosition(Player.GlobalTransform.origin + Player.Velocity);
-        DrawLine(start, end, color, Width);
-        DrawTriangle(end, start.DirectionTo(end), Width * 2, color);
+        var direction = new Vector3(
+            Player.Velocity.x,
+            Player.Velocity.y,
+            -Mathf.Abs(Player.Velocity.z)
+        );
+        DrawArrow(Player.GlobalTransform.origin, direction + Vector3.Forward, Colors.Green);
+        DrawArrow(Player.GlobalTransform.origin, Player.Velocity, Colors.Red);
+    }
+
+    private void DrawArrow(Vector3 start, Vector3 end, Color color)
+    {
+        var s = Camera.UnprojectPosition(start);
+        var e = Camera.UnprojectPosition(start + end);
+        DrawLine(s, e, color, Width);
+        DrawTriangle(e, s.DirectionTo(e), Width * 2, color);
     }
 
     public override void _Process(float delta)

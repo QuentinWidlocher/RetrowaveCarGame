@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/models/kenney_citykitroads/Models/GLTF format/pavement.material" type="Material" id=1]
 [ext_resource path="res://assets/models/kenney_citykitroads/Models/GLTF format/asphalt.material" type="Material" id=2]
@@ -60,6 +60,9 @@ surfaces/3 = {
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.499633, 0.01, 0.5 )
 
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.5016, 0.00969539, 0.0501245 )
+
 [node name="RoadMesh" type="MeshInstance"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 cast_shadow = 0
@@ -76,3 +79,11 @@ script = ExtResource( 5 )
 [node name="RoadCollisionShape" type="CollisionShape" parent="RoadBody"]
 shape = SubResource( 2 )
 disabled = true
+
+[node name="RCurb" type="CollisionShape" parent="RoadBody"]
+transform = Transform( 1, 3.10927e-09, -1.10724e-10, -3.10927e-09, 0.997467, -0.0711319, -1.10724e-10, 0.0711319, 0.997467, -1.48185e-09, 0.00473538, -0.449826 )
+shape = SubResource( 3 )
+
+[node name="LCurb" type="CollisionShape" parent="RoadBody"]
+transform = Transform( 1, -4.35127e-09, -2.17113e-10, 4.35127e-09, 0.995033, 0.0995455, -2.17113e-10, -0.0995455, 0.995033, 3.78793e-08, 0.00473538, 0.450652 )
+shape = SubResource( 3 )
