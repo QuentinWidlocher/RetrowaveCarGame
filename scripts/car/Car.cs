@@ -1,6 +1,6 @@
+using System;
 using Godot;
 using Helpers;
-using static Godot.GD;
 using static Helpers.Nullable;
 
 internal class Car : KinematicBody
@@ -17,7 +17,16 @@ internal class Car : KinematicBody
 
     public bool IsBoosting => BoostTime > 0 && BoostTime <= TotalBoostTime;
     public float Acceleration => IsBoosting ? BoostingAcceleration : BaseAcceleration;
-    public float MaxSpeed => IsBoosting ? BoostingMaxSpeed : BaseMaxSpeed;
+
+    public float MaxSpeed
+    {
+        get
+        {
+            var maxSpeed = IsBoosting ? BoostingMaxSpeed : BaseMaxSpeed;
+            var maxSpeedAccelerated = maxSpeed * (OS.GetTicksMsec() / GameAcceleration) + maxSpeed;
+            return Math.Clamp(maxSpeedAccelerated, BaseMaxSpeed, MaxMaxSpeed);
+        }
+    }
 
     public override void _Ready()
     {
@@ -93,7 +102,7 @@ internal class Car : KinematicBody
             if (Mathf.Abs(Velocity.z) <= MaxSpeed)
                 Velocity += DirectionVector * Acceleration;
             else
-                // Cap the velocity at MaxSpeed if > Maxspeed but keep the direction
+                // Cap the velocity at MaxSpeed if > MaxSpeed but keep the direction
                 Velocity = (Velocity + DirectionVector * Acceleration).Normalized() * MaxSpeed;
         }
 
@@ -137,7 +146,6 @@ internal class Car : KinematicBody
 
     private void OnJumpPadTouched()
     {
-        Print("OnJumpPadTouched");
         BoostTime = .2f;
         Velocity *= 5f;
     }
@@ -153,6 +161,8 @@ internal class Car : KinematicBody
     [Export] public readonly float BoostingMaxSpeed = 70f;
     [Export] public readonly float BrakeAngle = 2;
     [Export] public readonly float TotalBoostTime = 1f;
+    [Export] public readonly float GameAcceleration = 100000f;
+    [Export] public readonly float MaxMaxSpeed = 130f;
 
     #endregion
 

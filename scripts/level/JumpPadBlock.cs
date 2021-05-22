@@ -38,7 +38,6 @@ public class JumpPadBlock : RoadBlock
 
     public void OnBoostAreaTouched(Node body)
     {
-        Print("OnBoostAreaTouched");
         LevelManager.OnCarTouchedJumpPad();
     }
 }

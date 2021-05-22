@@ -1,5 +1,4 @@
 using Godot;
-using static Godot.GD;
 
 public class LevelManager : Node
 {
@@ -24,7 +23,6 @@ public class LevelManager : Node
 
     public void OnCarTouchedJumpPad()
     {
-        Print("OnCarTouchedJumpPad");
         EmitSignal(nameof(CarTouchedJumpPad));
     }
 }

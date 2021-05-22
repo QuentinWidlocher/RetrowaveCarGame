@@ -3,7 +3,7 @@ using Helpers;
 
 public class ChaseCamera : Camera
 {
-    [Export] private float LerpSpeed = 10;
+    [Export] protected float LerpSpeed = 10;
     [Export] private bool LockYPos;
     [Export] private bool LockYRot;
     private Vector3 Offset;
