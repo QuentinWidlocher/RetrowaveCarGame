@@ -17,7 +17,7 @@ jobs:
         id: build
         uses: josephbmanley/build-godot-action@v1.4.1
         with:
-          name: RetrowaveCarGame
+          name: car
           preset: ${{ matrix.platform }}
       - name: Upload ${{ matrix.platform }} artifact
         uses: actions/upload-artifact@v2
