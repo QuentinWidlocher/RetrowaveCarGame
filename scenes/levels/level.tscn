@@ -77,7 +77,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 CameraPath = NodePath("../../Car/Camera")
-Enabled = true
 PlayerPath = NodePath("../../Car")
 Width = 3.0
 

@@ -11,7 +11,7 @@ public class LevelBlockSpawner : Spatial
     private const int BackOffset = 5;
     private const int FrontOffset = 20;
 
-    private readonly List<RoadBlock> BlockPool = new();
+    private readonly List<RoadBlock> BlockPool = new List<RoadBlock>();
 
     private Node? _blocks;
     private RoadBlock? _startBlock;

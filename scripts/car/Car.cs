@@ -15,7 +15,7 @@ internal class Car : KinematicBody
         Direction.Angle() / (BrakeAngle / (Mathf.Abs(Velocity.z) / MaxSpeed)) / (IsOnFloor() ? 1 : 5)
     ).Normalized();
 
-    public bool IsBoosting => BoostTime > 0 && BoostTime <= TotalBoostTime;
+    public bool IsBoosting => BoostTime > 0;
     public float Acceleration => IsBoosting ? BoostingAcceleration : BaseAcceleration;
 
     public float MaxSpeed
@@ -42,6 +42,8 @@ internal class Car : KinematicBody
         LevelManager.Connect(nameof(LevelManager.CarTouchedCoin), this, nameof(OnCoinTouched));
         LevelManager.Connect(nameof(LevelManager.CarTouchedTaxi), this, nameof(OnTaxiTouched));
         LevelManager.Connect(nameof(LevelManager.CarTouchedJumpPad), this, nameof(OnJumpPadTouched));
+
+        Trail.SetOriginY(0.45f);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -120,8 +122,9 @@ internal class Car : KinematicBody
     private void ComputeBoosting(float delta)
     {
         if (IsBoosting) BoostTime -= delta;
-
-        Trail.Set("distance", IsBoosting ? .5f : 0);
+        BoostTime = Mathf.Max(BoostTime, 0);
+        
+        // Trail.Set("distance", IsBoosting ? .5f : 0);
         Trail.Set("emit", IsBoosting);
     }
 

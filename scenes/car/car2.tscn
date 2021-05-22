@@ -10,6 +10,7 @@ flags_unshaded = true
 flags_vertex_lighting = true
 flags_disable_ambient_light = true
 vertex_color_use_as_albedo = true
+params_cull_mode = 2
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.803922, 0, 1, 1, 0.803922, 0, 1, 0 )
@@ -29,18 +30,20 @@ enabled = true
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="Trail" type="ImmediateGeometry" parent="Mesh"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.696797, 0 )
 layers = 2
 material_override = SubResource( 1 )
 cast_shadow = 0
 generate_lightmap = false
 script = ExtResource( 10 )
-distance = 0.0
+distance = 1.0
 segments = 10
-base_width = 1.5
+lifetime = 1.0
+base_width = 1.557
 color_gradient = SubResource( 2 )
-smoothing_iterations = 1
 alignment = "Object"
 axe = "X"
+wire_line_width = 3.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.727067, 0 )
