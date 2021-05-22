@@ -10,7 +10,7 @@ internal class Car : KinematicBody
 
     public Vector3 Velocity;
 
-    public Vector3 DirectionVector => Vector3.Forward.Rotated(
+    public Vector3 DirectionVector => Vector3.Back.Rotated(
         Vector3.Up,
         Direction.Angle() / (BrakeAngle / (Mathf.Abs(Velocity.z) / MaxSpeed)) / (IsOnFloor() ? 1 : 5)
     ).Normalized();
@@ -59,9 +59,9 @@ internal class Car : KinematicBody
         var direction = new Vector3(
             Velocity.x,
             Velocity.y,
-            -Mathf.Abs(Velocity.z)
+            Mathf.Abs(Velocity.z)
         );
-        CarMesh.LookAt(Transform.origin + (direction + Vector3.Forward), Transform.basis.y);
+        CarMesh.LookAt(GlobalTransform.origin + (direction - Vector3.Forward), Transform.basis.y);
 
         AlignCarWithGround();
     }
@@ -107,31 +107,14 @@ internal class Car : KinematicBody
 
     private void ComputeVelocity()
     {
-        if (Input.IsActionPressed("accelerate"))
-        {
-            if (-Velocity.z <= MaxSpeed && Velocity.z < 0)
-                Velocity += DirectionVector * Acceleration;
-            else if (Velocity.z > 0)
-                // Go back to zero when re-accelerating instead of going sideways
-                Velocity = Velocity.LinearInterpolate(Vector3.Zero, Acceleration);
-            else
-                // Cap the velocity at MaxSpeed if > MaxSpeed but keep the direction
-                Velocity = (Velocity + DirectionVector * Acceleration).Normalized() * MaxSpeed;
-        }
-
-        if (!Input.IsActionPressed("accelerate") && Velocity.z <= -Deceleration)
-        {
-            Velocity += Transform.basis.z * Deceleration;
-
-            if (Velocity.x < -Deceleration)
-                Velocity += Transform.basis.x * Deceleration;
-            else if (Velocity.x > Deceleration)
-                Velocity -= Transform.basis.x * Deceleration;
-            else
-                Velocity.x = 0;
-
-            Direction = Direction.LinearInterpolate(new Vector2(1, 0), SteerSpeed);
-        }
+        if (Velocity.z <= MaxSpeed && Velocity.z >= 0)
+            Velocity += DirectionVector * Acceleration;
+        else if (Velocity.z < 0)
+            // Go back to zero when re-accelerating instead of going sideways
+            Velocity = Velocity.LinearInterpolate(Vector3.Zero, Acceleration);
+        else
+            // Cap the velocity at MaxSpeed if > MaxSpeed but keep the direction
+            Velocity = (Velocity + DirectionVector * Acceleration).Normalized() * MaxSpeed;
     }
 
     private void ComputeBoosting(float delta)

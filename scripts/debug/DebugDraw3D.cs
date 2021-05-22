@@ -32,10 +32,11 @@ public class DebugDraw3D : Control
         var direction = new Vector3(
             Player.Velocity.x,
             Player.Velocity.y,
-            -Mathf.Abs(Player.Velocity.z)
+            Mathf.Abs(Player.Velocity.z)
         );
-        DrawArrow(Player.GlobalTransform.origin, direction + Vector3.Forward, Colors.Green);
+        DrawArrow(Player.GlobalTransform.origin, direction - Vector3.Forward, Colors.Green);
         DrawArrow(Player.GlobalTransform.origin, Player.Velocity, Colors.Red);
+        DrawArrow(Player.GlobalTransform.origin, Player.DirectionVector, Colors.Blue);
     }
 
     private void DrawArrow(Vector3 start, Vector3 end, Color color)

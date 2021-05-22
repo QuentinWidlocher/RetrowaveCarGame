@@ -25,7 +25,7 @@ public class ChaseCamera : Camera
 
             if (Target != null)
             {
-                Offset = GlobalTransform.origin - Target.GlobalTransform.origin;
+                Offset = Target.GlobalTransform.origin - GlobalTransform.origin;
                 SetAsToplevel(true);
             }
         }

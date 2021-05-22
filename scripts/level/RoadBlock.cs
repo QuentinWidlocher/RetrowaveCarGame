@@ -15,7 +15,7 @@ public class RoadBlock : Spatial
 
         var loadZone = GetNodeOrNull("LoadZone");
 
-        if (loadZone != null) loadZone.Connect("body_entered", this, "OnLoadZoneEntered");
+        loadZone?.Connect("body_entered", this, nameof(OnLoadZoneEntered));
 
         SetProcess(true);
 
