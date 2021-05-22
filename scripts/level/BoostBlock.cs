@@ -52,13 +52,16 @@ public class BoostBlock : RoadBlock
 
     private void OnCoinTouched(Node body)
     {
-        LevelManager.OnCarTouchedCoin();
-
-        AnimationPlayer.RunAnimationThen("Collected", () =>
+        if (body is Car)
         {
-            // Freeing cause some dumb problems and we'll free it in a few seconds so...
-            _coinMesh?.Hide();
-            Collider.Disabled = true;
-        });
+            LevelManager.OnCarTouchedCoin();
+
+            AnimationPlayer.RunAnimationThen("Collected", () =>
+            {
+                // Freeing cause some dumb problems and we'll free it in a few seconds so...
+                _coinMesh?.Hide();
+                Collider.Disabled = true;
+            });
+        }
     }
 }

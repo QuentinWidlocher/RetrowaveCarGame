@@ -38,6 +38,10 @@ public class JumpPadBlock : RoadBlock
 
     public void OnBoostAreaTouched(Node body)
     {
-        LevelManager.OnCarTouchedJumpPad();
+        if (body is Car)
+        {
+            Print("WOULA CA TOUCHE");
+            LevelManager.OnCarTouchedJumpPad();
+        }
     }
 }

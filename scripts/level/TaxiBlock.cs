@@ -11,12 +11,6 @@ public class TaxiBlock : RoadBlock
     private LevelManager LevelManager => ReturnIfNotNull(_levelManager);
     private Taxi Taxi => ReturnIfNotNull(_taxi);
 
-    public void OnTaxiCollided(Node body)
-    {
-        LevelManager.OnCarTouchedTaxi();
-        Taxi.QueueFree();
-    }
-
     public override void _Ready()
     {
         base._Ready();
@@ -43,5 +37,14 @@ public class TaxiBlock : RoadBlock
             Taxi.Transform.origin.y,
             (Randf() - .5f) / 1.5f
         ));
+    }
+
+    public void OnTaxiCollided(Node body)
+    {
+        if (body is Car)
+        {
+            LevelManager.OnCarTouchedTaxi();
+            Taxi.QueueFree();
+        }
     }
 }
