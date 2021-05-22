@@ -146,7 +146,7 @@ internal class Car : KinematicBody
 
     private void OnJumpPadTouched()
     {
-        BoostTime = .2f;
+        BoostTime = Mathf.Max(.2f, BoostTime);
         Velocity *= 5f;
     }
 

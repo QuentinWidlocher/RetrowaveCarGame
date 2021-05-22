@@ -9,6 +9,9 @@ public class LevelManager : Node
     public delegate void CarTouchedJumpPad();
 
     [Signal]
+    public delegate void CarTouchedKillZone();
+
+    [Signal]
     public delegate void CarTouchedTaxi();
 
     public void OnCarTouchedCoin()
@@ -24,5 +27,11 @@ public class LevelManager : Node
     public void OnCarTouchedJumpPad()
     {
         EmitSignal(nameof(CarTouchedJumpPad));
+    }
+
+    public void OnCarTouchedKillZone()
+    {
+        GetTree().Notification(MainLoop.NotificationWmQuitRequest);
+        EmitSignal(nameof(CarTouchedKillZone));
     }
 }
